@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html ng-app="app_contactos">
+
+<head>
+    <title>Proyecto Redes</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body ng-controller="controlador">
+    <div class="container-fluid" style="margin: 10px">
+        <div class="row">
+            <div class="col-md-6">
+                <div style="border:solid 2px blue;
+                    border-radius: 5px">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-1 ">
+                            <h2 class="text-satisfactorio">Agragar Contacto</h2>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <label>Nombre</label>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <label>Apellido</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.nombre" class="form-control" type="text" placeholder="Nombre">
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.apellido" class="form-control" type="text"
+                                placeholder="Apellido">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <label>Genero</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <select ng-model="contactos.genero" class="form-control">
+                                <option value="Femenino">F</option>
+                                <option value="Masculino">M</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <label>Identificacion</label>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <label>Tipo</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.identificacion" class="form-control" type="text"
+                                placeholder="Identificacion">
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <div class="col-md-3">
+                                <input ng-model="contactos.tipo" type="radio" name="Ident" value="C.C">CC
+                            </div>
+                            <div class="col-md-3">
+                                <input ng-model="contactos.tipo" type="radio" name="Ident" value="T.I">TI
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <label>Telefono</label>
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <label>Direccion</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.telefono" class="form-control" type="number"
+                                placeholder="Telefono">
+                        </div>
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.direccion" class="form-control" type="text"
+                                placeholder="Direccion">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <label>Correo</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-5 offset-md-1">
+                            <input ng-model="contactos.correo" class="form-control" type="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 10px">
+                        <div class="col-md-6 offset-md-8">
+                            <button class="btn btn-secondary">Cancelar</button>
+                            <button class="btn btn-success" ng-click="guardar_contactos()">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--MIS CONTACTOS-->
+            <div class="col-md-5" style="border:solid 2px blue;
+                     border-radius: 5px; margin-left: 10px; padding: 5px">
+                <div class="row">
+                    <div class="col-md-6 offset-md-1 ">
+                        <h2>Mis contactos</h2>
+                    </div>
+                </div>
+                <div ng-repeat="contacto in contactos" class='row'>
+                    <div class='col-md-10 offset-md-1' style="border:solid 2px blue;
+                                 border-radius: 5px; margin-top: 10px">
+                        <div class='row'>
+                            <div class="col-md-5">
+                                <h2 ng-click="ocultar($event)">{{contacto.nombre}}</h2>
+                            </div>
+                            <div class="col-md-5 offset-md-1">
+                                <form method="POST" action="actualizar.php" style="display: inline-block;">
+                                    <input type="hidden" name="identi" value="{{contacto.identificacion}}"/>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 5px">Actualizar</button>
+                                </form>
+                                <button class="btn btn-danger" style="margin-top: 5px"
+                                    ng-click="borrar($event,contacto.identificacion)">X</button>
+                            </div>
+                        </div>
+                        <div id="datos" class="row">
+                            <div class="row">
+                                <div class="col-md-11 offset-md-1">
+                                    <label>Apellido: {{contacto.apellido}}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11 offset-md-1">
+                                    <label>Telefono: {{contacto.telefono}}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11 offset-md-1">
+                                    <label>Correo: {{contacto.correo}}</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-11 offset-md-1">
+                                    <label>N° de identificación: {{contacto.identificacion}} </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="script/jquery.min.js"></script>
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="operaciones.js"></script>
+    <script src='js/popper.min.js'></script>
+    <script src='js/bootstrap.min.js'></script>
+</body>
+
+</html>
